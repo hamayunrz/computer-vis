@@ -4,6 +4,7 @@ import pygame
 class PostGame():
     def __init__(self, total_clicks, total_hits):
         self.display_surface = pygame.display.get_surface()
+
         self.total_clicks, self.total_hits = total_clicks, total_hits
         self.misses = self.total_clicks - self.total_hits
 
@@ -23,9 +24,7 @@ class PostGame():
 
         if self.total_clicks > 0:
             self.accuracy = round((self.total_hits / self.total_clicks) * 100, 2)
-            self.final_score = "{:,}".format(
-                int(self.accuracy * self.total_hits) * self.multiplier
-            )
+            self.final_score = "{:,}".format(int(self.accuracy * self.total_hits) * self.multiplier)
         else:
             self.accuracy, self.final_score = 0, 0
 
@@ -50,35 +49,26 @@ class PostGame():
         # base background + text surfaces
         postgame_image = pygame.image.load(BG_IMAGE_PATH).convert_alpha()
         game_over_text = self.font.render("GAME OVER", True, (255, 0, 0))
-        stats_numbers_text = self.score_font.render(
-            f"SCORE: {self.final_score}", True, (255, 255, 255)
-        )
-        stats_percentage_text = self.stats_font.render(
-            "Press Space to Try Again", True, (255, 255, 255)
-        )
+
+        stats_numbers_text = self.score_font.render(f"SCORE: {self.final_score}", True, (255, 255, 255))
+        stats_percentage_text = self.stats_font.render("Press Space to Try Again", True, (255, 255, 255))
 
         # clamp score text width to 1920
         if stats_numbers_text.get_width() > 1920:
             new_height = int(
-                (stats_numbers_text.get_height() / stats_numbers_text.get_width()) * 1920
-            )
-            stats_numbers_text = pygame.transform.scale(
-                stats_numbers_text, (1920, new_height)
-            )
+                (stats_numbers_text.get_height() / stats_numbers_text.get_width()) * 1920)
+            stats_numbers_text = pygame.transform.scale(stats_numbers_text, (1920, new_height))
 
         # grab rects from text
         game_over = game_over_text.get_bounding_rect()
         stats_numbers = stats_numbers_text.get_bounding_rect()
         stats_percentage = stats_percentage_text.get_bounding_rect()
 
-        height = (
-            game_over_text.get_height()
-            + stats_numbers_text.get_height()
-            + stats_percentage_text.get_height()
-        )
+        height = game_over_text.get_height() + stats_numbers_text.get_height() + stats_percentage_text.get_height()
 
         final_surface = pygame.Surface((1920, 1080))
         final_surface_rect = final_surface.get_rect()
+
         final_surface_rect.centerx = self.display_surface.get_rect().centerx
         final_surface_rect.centery = self.display_surface.get_rect().centery
 
@@ -88,8 +78,11 @@ class PostGame():
         stats_percentage.centerx, stats_percentage.y = 960, stats_numbers.bottom + 20
 
         final_surface.blit(game_over_text, game_over)
+
         final_surface.blit(stats_numbers_text, stats_numbers)
+
         final_surface.blit(stats_percentage_text, stats_percentage)
 
         self.display_surface.blit(postgame_image, (0, 0))
         self.display_surface.blit(final_surface, (0, 0))
+

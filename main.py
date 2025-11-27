@@ -6,16 +6,21 @@ import pygame, random
 class Countdown():
     def __init__(self, aimbot_status, seconds):
         self.display_surface = pygame.display.get_surface()
+
         self.font = pygame.font.Font(COUNTDOWN_FONT, 80)
 
+
         self.decrement_time = pygame.time.get_ticks()
+
         self.should_decrement = False
 
         self.aimbot_status = aimbot_status
         self.time_left = int(seconds)
+
         self.initial_countdown_length = self.time_left
 
         self.target_group = pygame.sprite.Group()
+
         self.targets_spawned = 0
 
         if self.aimbot_status:
@@ -33,6 +38,7 @@ class Countdown():
         if self.should_decrement:
             self.time_left -= 1
             self.decrement_time = pygame.time.get_ticks()
+
             self.should_decrement = False
 
         if self.time_left > 0:
@@ -43,6 +49,7 @@ class Countdown():
         # draw current timer value (bottom right)
         count_surf = self.font.render(count_string, True, TEXT_COLOR, None)
         x, y = WIDTH - 20, HEIGHT - 10
+
         count_rect = count_surf.get_rect(bottomright = (x, y))
         self.display_surface.blit(count_surf, count_rect)
 
@@ -60,7 +67,9 @@ class Countdown():
     # update timer / targets / aimbot every frame
     def update(self):
         self.cooldowns()
+
         self.draw_timer()
         self.spawn_target()
+
         if self.aimbot_status:
             self.aimbot.update()

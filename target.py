@@ -4,6 +4,7 @@ import pygame
 class Target(pygame.sprite.Sprite):
     def __init__(self, x, y, *groups):
         super().__init__(*groups)
+
         pygame.mixer.init()
 
         self.image = pygame.image.load(TARGET_IMAGE)
@@ -13,8 +14,9 @@ class Target(pygame.sprite.Sprite):
         self.hit_channel = pygame.mixer.Channel(5)
 
     def update(self):
-        # mouse over target = hit
+        # hitter
         x, y = pygame.mouse.get_pos()
+
         if self.rect.collidepoint(x, y):
             self.hit_channel.play(self.hit_sound)
             self.kill()

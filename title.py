@@ -9,8 +9,9 @@ class TitleScreen():
         self.aimbot_enabled = False
 
     def update(self):
-        # bg + title text
+        # title txt stuff
         title_image = pygame.image.load(BG_IMAGE_PATH).convert_alpha()
+
         aim_trainer_text = self.font.render("AIM TRAINER", True, (255, 255, 255))
         press_space_text = self.space_font.render("Press Space to Start", True, (255, 0, 0))
 
@@ -22,7 +23,9 @@ class TitleScreen():
         press_space_rect = press_space_text.get_rect()
 
         center = self.display_surface.get_rect().centerx, self.display_surface.get_rect().centery
+
         aim_trainer_rect.centerx, aim_trainer_rect.centery = center
+
         press_space_rect.centerx = center[0]
         press_space_rect.centery = center[1] + 150
 
@@ -32,5 +35,6 @@ class TitleScreen():
             self.display_surface.blit(aimbot_on, (0, 0))
         else:
             self.display_surface.blit(aimbot_off, (0, 0))
+
         self.display_surface.blit(aim_trainer_text, aim_trainer_rect)
         self.display_surface.blit(press_space_text, press_space_rect)
